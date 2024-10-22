@@ -2,22 +2,23 @@ from Mark import Mark
 
 
 class MarksCLI:
-    __students: list[Mark]
-    __INSTR: list[str] = [
-        "1 to add new student",
-        "2 to search existing booking",
-        "3 to list all bookings",
-        "Enter any other key to quit",
-    ]
-
     def __init__(self) -> None:
-        self.__students = []
+        self.__students: list[Mark] = []
+        """@param list[Mark] - students"""
+        self.__INSTR: str = (
+            "1 to add new student\n"
+            "2 to search existing booking\n"
+            "3 to list all bookings\n"
+            "Enter any other key to quit\n"
+        )
+        """@param str - instructions"""
+
         print("Mark Entry System 3.0")
         self.__cli()
 
     def __cli(self) -> None:
         """run the CLI component recursively"""
-        CMD: int = int(input(f"{self.__linebreak()}\n{', '.join(self.__INSTR)}"))
+        CMD: int = int(input(f"{self.__linebreak()}\n{self.__INSTR}"))
         match CMD:
             case 1:
                 self.__students = [*self.__students, self.__new()]
