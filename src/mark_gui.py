@@ -1,19 +1,19 @@
 from tkinter import Tk, StringVar, IntVar, Label, Entry, Button
-from Mark import Mark
+from src.mark import Mark
 
 
 class MarksGUI:
     def __init__(self) -> None:
         master: Tk = Tk()
-        """@param TK - GUI window container"""
+        """TK - GUI window container"""
         self.__student_name: StringVar = StringVar()
-        """@param StringVar - student name"""
+        """StringVar - student name"""
         self.__student_mark: IntVar = IntVar()
-        """@param IntVar - student mark"""
+        """IntVar - student mark"""
         self.__output: StringVar = StringVar()
-        """@param StringVar - output"""
+        """StringVar - output"""
         self.__students: list[Mark] = []
-        """@param list[Mark] - students"""
+        """list[Mark] - students"""
 
         master.title("Mark Entry System 3.0")
         Label(master, text="Enter the students details").grid(row=0, columnspan=2)
@@ -39,17 +39,21 @@ class MarksGUI:
     def __display(self) -> None:
         """Display all students"""
         self.__clear()
-        self.__output.set("\n".join(student.__str__() for student in self.__students))
+        out: str = ""
+        for student in self.__students:
+            out += f"{student.__str__()}\n"
+        self.__output.set(out.strip())
 
     def __search(self) -> None:
         """Search for student record using name"""
-        self.__output.set(
-            "".join(
-                student.__str__()
-                for student in self.__students
-                if student.get_student_name() == self.__student_name.get()
-            )
-        )
+        i: int = 0
+        out: str = ""
+        for student in self.__students:
+            if student.get_student_name() == self.__student_name.get():
+                i += 1
+                out += f"{student.__str__()}\n"
+        out = out.strip()
+        self.__output.set("no student found" if out == "" else out)
 
     def __exit(self) -> None:
         """Close the application"""
@@ -60,7 +64,3 @@ class MarksGUI:
         self.__student_name.set("")
         self.__student_mark.set(0)
         self.__output.set("")
-
-
-if __name__ == "__main__":
-    MarksGUI()

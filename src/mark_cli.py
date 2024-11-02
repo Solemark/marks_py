@@ -1,34 +1,33 @@
-from Mark import Mark
+from src.mark import Mark
 
 
 class MarksCLI:
     def __init__(self) -> None:
         self.__students: list[Mark] = []
-        """@param list[Mark] - students"""
+        """list[Mark] - students"""
         self.__INSTR: str = (
             "1 to add new student\n"
             "2 to search existing booking\n"
             "3 to list all bookings\n"
             "Enter any other key to quit\n"
         )
-        """@param str - instructions"""
+        """str - instructions"""
 
         print("Mark Entry System 3.0")
         self.__cli()
 
     def __cli(self) -> None:
         """run the CLI component recursively"""
-        CMD: int = int(input(f"{self.__linebreak()}\n{self.__INSTR}"))
-        match CMD:
-            case 1:
-                self.__students = [*self.__students, self.__new()]
-            case 2:
-                print(self.__search())
-            case 3:
-                print(self.__students)
-            case _:
-                exit(0)
-        self.__cli()
+        while True:
+            match input(f"{self.__linebreak()}\n{self.__INSTR}"):
+                case "1":
+                    self.__students = [*self.__students, self.__new()]
+                case "2":
+                    print(self.__search().__str__())
+                case "3":
+                    print(self.__list())
+                case _:
+                    exit(0)
 
     def __linebreak(self) -> str:
         """Function that creates a string linebreak"""
@@ -39,9 +38,9 @@ class MarksCLI:
         print("Enter student details")
         return Mark(input("Name: "), int(input("Mark: ")))
 
-    def __search(self) -> Mark | str:
+    def __search(self) -> Mark | None:
         """Finds the Student from the student list"""
-        out: Mark | str
+        out: Mark | None = None
         inp: str = input("Enter student name to search:")
         for student in self.__students:
             if inp == student.get_student_name():
@@ -49,6 +48,8 @@ class MarksCLI:
                 break
         return out
 
-
-if __name__ == "__main__":
-    MarksCLI()
+    def __list(self) -> str:
+        out: str = ""
+        for student in self.__students:
+            out += f"{student.__str__()}\n"
+        return out

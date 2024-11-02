@@ -1,9 +1,9 @@
 class Mark:
     def __init__(self, student_name: str = "", student_mark: int = 0) -> None:
         self.__student_name: str = student_name
-        """@param str - student name"""
+        """str - student name"""
         self.__student_mark: int = student_mark
-        """@param int - student mark"""
+        """int - student mark"""
 
     def set_student_name(self, student_name: str) -> None:
         """Update the student name"""
